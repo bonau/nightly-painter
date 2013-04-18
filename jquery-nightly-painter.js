@@ -1,5 +1,5 @@
 $.fn.nightlyPainter = function(args) {
-  this.init = function() {
+  this.init = function(args) {
     this.renderFunction = this.updateCanvasByLine;
     this.context = this[0].getContext("2d");	
     this.context.strokeStyle = "#000000";
@@ -19,7 +19,32 @@ $.fn.nightlyPainter = function(args) {
     }
 
     this.bind(this.mouseDownEvent, this.onCanvasMouseDown());
+
+    if (args) {
+      this.processOptions(args);
+    }
+
     return this;
+  }
+
+  this.processOptions = function (opts) {
+    for(var key in opts) {
+      var value = opts[key];
+      switch(key) {
+        case "strokeStyle":
+          this.setStrokeStyle(value);
+        case "lineWidth":
+          this.setLineWidth(value);
+      }
+    }
+  }
+
+  this.setStrokeStyle = function (value) {
+    this.context.strokeStyle = value;
+  }
+
+  this.setLineWidth = function (value) {
+    this.context.lineWidth = value;
   }
 
   this.onCanvasMouseDown = function () {
@@ -98,7 +123,6 @@ $.fn.nightlyPainter = function(args) {
     {
       x = start.x + (Math.sin(angle) * z) - halfBrushW;
       y = start.y + (Math.cos(angle) * z) - halfBrushH;
-      //console.log( x, y, angle, z );
       this.context.drawImage(this.brush, x, y);
     };
   };
@@ -119,5 +143,5 @@ $.fn.nightlyPainter = function(args) {
     this.context.clearRect( 0, 0, c.width, c.height );
   };
 
-  return this.init();
+  return this.init(args);
 };
