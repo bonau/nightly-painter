@@ -7,9 +7,11 @@
     <script type="text/javascript" charset="utf-8" src="jquery-nightly-painter.js"></script>
   </head>
   <body>
-    <canvas id="painter"></canvas>
     <button id="clear">clear</button>
     <button id="undo">undo</button>
+    <button id="redo">redo</button>
+    <hr />
+    <canvas id="painter"></canvas>
     <script type="text/javascript" charset="utf-8">
       $(document).ready( function() {
           var painter = $('#painter').nightlyPainter({ lineWidth: 7, strokeStyle: "#369" });
@@ -18,6 +20,9 @@
           })
           $('#undo').click(function(e) {
             painter.undo();
+          })
+          $('#redo').click(function(e) {
+            painter.redo();
           })
       });
     </script>

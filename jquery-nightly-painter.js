@@ -5,6 +5,7 @@ $.fn.nightlyPainter = function(opts) {
     this.context.strokeStyle = "#000000";
     this.context.lineWidth = 3;
     this.undoStack = [];
+    this.redoStack = [];
 
     this.touchSupported = Modernizr.touch;
     this.lastMousePoint = {x:0, y:0};
@@ -147,12 +148,40 @@ $.fn.nightlyPainter = function(opts) {
     this.context.clearRect( 0, 0, this.width(), this.height() );
   };
 
-  this.saveUndoState = function () {
+  this.saveUndoState = function (opts) {
+    if (!opts || !opts.callFromRedo) {
+      this.clearRedoState();
+    };
     this.undoStack.push(this.toDataURL());
+  };
+
+  this.saveRedoState = function () {
+    this.redoStack.push(this.toDataURL());
+  };
+
+  this.clearRedoState = function () {
+    this.redoStack = [];
   };
 
   this.undo = function () {
     var dataURL = this.undoStack.pop();
+    if (dataURL)
+    {
+      this.saveRedoState();
+      this.readDataURL(dataURL);
+    }
+  };
+
+  this.redo = function () {
+    var dataURL = this.redoStack.pop();
+    if (dataURL)
+    {
+      this.saveUndoState({callFromRedo: true});
+      this.readDataURL(dataURL);
+    }
+  };
+
+  this.readDataURL = function(dataURL) {
     if (dataURL)
     {
       var imageObj = new Image();
@@ -163,7 +192,7 @@ $.fn.nightlyPainter = function(opts) {
       };
       imageObj.src = dataURL;
     }
-  };
+  }
 
   return this.init(opts);
 };
