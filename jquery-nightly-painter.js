@@ -4,6 +4,7 @@ $.fn.nightlyPainter = function(opts) {
     this.context = this[0].getContext("2d");	
     this.context.strokeStyle = "#000000";
     this.context.lineWidth = 3;
+    this.undoStack = [];
 
     this.touchSupported = Modernizr.touch;
     this.lastMousePoint = {x:0, y:0};
@@ -50,6 +51,8 @@ $.fn.nightlyPainter = function(opts) {
   this.onCanvasMouseDown = function () {
     var self = this;
     return function(event) {
+      self.saveUndoState();
+
       self.mouseMoveHandler = self.onCanvasMouseMove();
       self.mouseUpHandler = self.onCanvasMouseUp();
 
@@ -140,7 +143,26 @@ $.fn.nightlyPainter = function(opts) {
   };
 
   this.clear = function () {
+    this.saveUndoState();
     this.context.clearRect( 0, 0, this.width(), this.height() );
+  };
+
+  this.saveUndoState = function () {
+    this.undoStack.push(this.toDataURL());
+  };
+
+  this.undo = function () {
+    var dataURL = this.undoStack.pop();
+    if (dataURL)
+    {
+      var imageObj = new Image();
+      var self = this;
+      imageObj.onload = function() {
+        self.context.clearRect(0, 0, self.width(), self.height());
+        self.context.drawImage(this, 0, 0);
+      };
+      imageObj.src = dataURL;
+    }
   };
 
   return this.init(opts);

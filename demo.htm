@@ -9,11 +9,15 @@
   <body>
     <canvas id="painter"></canvas>
     <button id="clear">clear</button>
+    <button id="undo">undo</button>
     <script type="text/javascript" charset="utf-8">
       $(document).ready( function() {
           var painter = $('#painter').nightlyPainter({ lineWidth: 7, strokeStyle: "#369" });
           $('#clear').click(function(e) {
             painter.clear();
+          })
+          $('#undo').click(function(e) {
+            painter.undo();
           })
       });
     </script>
