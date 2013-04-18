@@ -1,5 +1,5 @@
-$.fn.nightlyPainter = function(args) {
-  this.init = function(args) {
+$.fn.nightlyPainter = function(opts) {
+  this.init = function(opts) {
     this.renderFunction = this.updateCanvasByLine;
     this.context = this[0].getContext("2d");	
     this.context.strokeStyle = "#000000";
@@ -20,8 +20,8 @@ $.fn.nightlyPainter = function(args) {
 
     this.bind(this.mouseDownEvent, this.onCanvasMouseDown());
 
-    if (args) {
-      this.processOptions(args);
+    if (opts) {
+      this.processOptions(opts);
     }
 
     return this;
@@ -143,5 +143,5 @@ $.fn.nightlyPainter = function(args) {
     this.context.clearRect( 0, 0, this.width(), this.height() );
   };
 
-  return this.init(args);
+  return this.init(opts);
 };
