@@ -14,7 +14,9 @@
     <canvas id="painter"></canvas>
     <script type="text/javascript" charset="utf-8">
       $(document).ready( function() {
-          var painter = $('#painter').nightlyPainter({ lineWidth: 7, strokeStyle: "#369" });
+          var painter = $('#painter').nightlyPainter();
+          // We can also set default options
+          //var painter = $('#painter').nightlyPainter({ strokeStyle: "#369", lineWidth: 6 });
           $('#clear').click(function(e) {
             painter.clear();
           })

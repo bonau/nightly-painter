@@ -1,9 +1,12 @@
 $.fn.nightlyPainter = function(opts) {
+  var defaultOptions = {
+    strokeStyle: "#666666",
+    lineWidth: 2,
+  };
+
   this.init = function(opts) {
     this.renderFunction = this.updateCanvasByLine;
     this.context = this[0].getContext("2d");	
-    this.context.strokeStyle = "#000000";
-    this.context.lineWidth = 3;
     this.undoStack = [];
     this.redoStack = [];
 
@@ -22,9 +25,8 @@ $.fn.nightlyPainter = function(opts) {
 
     this.bind(this.mouseDownEvent, this.onCanvasMouseDown());
 
-    if (opts) {
-      this.processOptions(opts);
-    }
+    $.extend(defaultOptions, opts);
+    this.processOptions(defaultOptions);
 
     return this;
   }
