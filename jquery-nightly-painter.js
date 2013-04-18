@@ -140,7 +140,7 @@ $.fn.nightlyPainter = function(args) {
   };
 
   this.clear = function () {
-    this.context.clearRect( 0, 0, c.width, c.height );
+    this.context.clearRect( 0, 0, this.width(), this.height() );
   };
 
   return this.init(args);

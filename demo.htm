@@ -10,9 +10,13 @@
     <canvas id="painter">
       
     </canvas>
+    <button id="clear">清除</button>
     <script type="text/javascript" charset="utf-8">
       $(document).ready( function() {
-          $('#painter').nightlyPainter({ lineWidth: 7, strokeStyle: "#369" });
+          var painter = $('#painter').nightlyPainter({ lineWidth: 7, strokeStyle: "#369" });
+          $('#clear').click(function(e) {
+            painter.clear();
+          })
       });
     </script>
   </body>
