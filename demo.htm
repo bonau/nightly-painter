@@ -10,6 +10,7 @@
     <button id="clear">clear</button>
     <button id="undo">undo</button>
     <button id="redo">redo</button>
+    <button id="download">download</button>
     <hr />
     <canvas id="painter"></canvas>
     <script type="text/javascript" charset="utf-8">
@@ -17,15 +18,10 @@
           var painter = $('#painter').nightlyPainter();
           // We can also set default options
           //var painter = $('#painter').nightlyPainter({ strokeStyle: "#369", lineWidth: 6 });
-          $('#clear').click(function(e) {
-            painter.clear();
-          })
-          $('#undo').click(function(e) {
-            painter.undo();
-          })
-          $('#redo').click(function(e) {
-            painter.redo();
-          })
+          $('#clear').click(function(e) { painter.clear(); })
+          $('#undo').click(function(e) { painter.undo(); })
+          $('#redo').click(function(e) { painter.redo(); })
+          $('#download').click(function(e) { painter.download(); })
       });
     </script>
   </body>

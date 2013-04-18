@@ -196,5 +196,29 @@ $.fn.nightlyPainter = function(opts) {
     }
   }
 
+  this.download = function () {
+    var dataURL = this.toDataURL();
+
+    // init global tools
+    window.URL = window.webkitURL || window.URL;
+    window.BlobBuilder = window.Blob || window.BlobBuilder ||
+                         window.WebKitBlobBuilder || window.MozBlobBuilder;
+
+    // create data link
+    var a = document.createElement('a');
+    a.download = 'chat9-' +  $.now() + '.png';
+    $(a).hide();
+    a.href = dataURL;
+    a.textContent = 'Download';
+    a.dataset.downloadurl = ["image/png", a.download.toString(), a.href.toString()].join(":");
+    document.body.appendChild(a);
+
+    // force invoke click event to data link
+    var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("click", true, true, window,
+      0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    var allowDefault = a.dispatchEvent(evt);
+  };
+
   return this.init(opts);
 };
