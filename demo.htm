@@ -22,6 +22,8 @@
     <button id="small">small</button>
     <button id="medium">medium</button>
     <button id="large">large</button>
+    <button id="eraser">eraser</button>
+    <button id="pen">pen</button>
     <hr />
     <canvas id="painter"></canvas>
     <script type="text/javascript" charset="utf-8">
@@ -36,6 +38,8 @@
           $('#small').click(function(e) { painter.setLineWidth(3); })
           $('#medium').click(function(e) { painter.setLineWidth(7); })
           $('#large').click(function(e) { painter.setLineWidth(12); })
+          $('#eraser').click(function(e) { painter.eraserMode(); })
+          $('#pen').click(function(e) { painter.lineMode(); })
           $(window).resize(resizeToFit);
           resizeToFit();
       });

@@ -108,6 +108,16 @@ $.fn.nightlyPainter = function(opts) {
     this.context.beginPath();
     this.context.moveTo( this.lastMousePoint.x, this.lastMousePoint.y );
     this.updateMousePosition( event );
+    this.context.globalCompositeOperation = 'source-over';
+    this.context.lineTo( this.lastMousePoint.x, this.lastMousePoint.y );
+    this.context.stroke();
+  };
+
+  this.updateCanvasByEraser = function (event) {
+    this.context.beginPath();
+    this.context.moveTo( this.lastMousePoint.x, this.lastMousePoint.y );
+    this.updateMousePosition( event );
+    this.context.globalCompositeOperation = 'destination-out';
     this.context.lineTo( this.lastMousePoint.x, this.lastMousePoint.y );
     this.context.stroke();
   };
@@ -218,6 +228,20 @@ $.fn.nightlyPainter = function(opts) {
     evt.initMouseEvent("click", true, true, window,
       0, 0, 0, 0, 0, false, false, false, false, 0, null);
     var allowDefault = a.dispatchEvent(evt);
+  };
+
+  this.setRenderFunction = function (name) {
+    if (this[name]) {
+      this.renderFunction = this[name];
+    }
+  };
+
+  this.eraserMode = function () {
+    this.setRenderFunction('updateCanvasByEraser');
+  };
+
+  this.lineMode = function () {
+    this.setRenderFunction('updateCanvasByLine');
   };
 
   return this.init(opts);
