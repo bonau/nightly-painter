@@ -19,6 +19,9 @@
     <button id="undo">undo</button>
     <button id="redo">redo</button>
     <button id="download">download</button>
+    <button id="small">small</button>
+    <button id="medium">medium</button>
+    <button id="large">large</button>
     <hr />
     <canvas id="painter"></canvas>
     <script type="text/javascript" charset="utf-8">
@@ -30,6 +33,9 @@
           $('#undo').click(function(e) { painter.undo(); })
           $('#redo').click(function(e) { painter.redo(); })
           $('#download').click(function(e) { painter.download(); })
+          $('#small').click(function(e) { painter.setLineWidth(3); })
+          $('#medium').click(function(e) { painter.setLineWidth(7); })
+          $('#large').click(function(e) { painter.setLineWidth(12); })
           $(window).resize(resizeToFit);
           resizeToFit();
       });
