@@ -5,6 +5,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="modernizr-2.6.2.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="jquery-nightly-painter.js"></script>
+    <script type="text/javascript" charset="utf-8" src="trigonometry.js"></script>
     <style type="text/css" media="screen">
       html, body {
         width: 100%;
@@ -24,6 +25,7 @@
     <button id="large">large</button>
     <button id="eraser">eraser</button>
     <button id="pen">pen</button>
+    <button id="brush">brush</button>
     <hr />
     <canvas id="painter"></canvas>
     <script type="text/javascript" charset="utf-8">
@@ -40,6 +42,7 @@
           $('#large').click(function(e) { painter.setLineWidth(12); })
           $('#eraser').click(function(e) { painter.eraserMode(); })
           $('#pen').click(function(e) { painter.lineMode(); })
+          $('#brush').click(function(e) { painter.setBrushByURL('./brush-fuzzy-16.png'); })
           $(window).resize(resizeToFit);
           resizeToFit();
       });

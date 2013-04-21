@@ -2,6 +2,7 @@ $.fn.nightlyPainter = function(opts) {
   var defaultOptions = {
     strokeStyle: "#666666",
     lineWidth: 2,
+    brush: new Image(),
   };
 
   this.init = function(opts) {
@@ -49,6 +50,22 @@ $.fn.nightlyPainter = function(opts) {
 
   this.setLineWidth = function (value) {
     this.context.lineWidth = value;
+  }
+
+  this.setBrush = function (image) {
+    if (image instanceof Image) {
+      this.brush = image;
+    }
+  }
+
+  this.setBrushByURL = function (url) {
+    var self = this;
+    var image = new Image();
+    image.onload = function() {
+      self.brush = this;
+      self.brushMode(); // TODO: deal with cancellation
+    }
+    image.src = url;
   }
 
   this.onCanvasMouseDown = function () {
@@ -243,6 +260,15 @@ $.fn.nightlyPainter = function(opts) {
   this.lineMode = function () {
     this.setRenderFunction('updateCanvasByLine');
   };
+
+  this.brushMode = function () {
+    if (this.brush instanceof Image) {
+      this.setRenderFunction('updateCanvasByBrush');
+      this.context.globalCompositeOperation = 'source-over';
+      return true;
+    }
+    return false;
+  }
 
   return this.init(opts);
 };
