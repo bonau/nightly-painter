@@ -125,16 +125,6 @@ $.fn.nightlyPainter = function(opts) {
     this.context.beginPath();
     this.context.moveTo( this.lastMousePoint.x, this.lastMousePoint.y );
     this.updateMousePosition( event );
-    this.context.globalCompositeOperation = 'source-over';
-    this.context.lineTo( this.lastMousePoint.x, this.lastMousePoint.y );
-    this.context.stroke();
-  };
-
-  this.updateCanvasByEraser = function (event) {
-    this.context.beginPath();
-    this.context.moveTo( this.lastMousePoint.x, this.lastMousePoint.y );
-    this.updateMousePosition( event );
-    this.context.globalCompositeOperation = 'destination-out';
     this.context.lineTo( this.lastMousePoint.x, this.lastMousePoint.y );
     this.context.stroke();
   };
@@ -254,11 +244,15 @@ $.fn.nightlyPainter = function(opts) {
   };
 
   this.eraserMode = function () {
-    this.setRenderFunction('updateCanvasByEraser');
+    this.setRenderFunction('updateCanvasByLine');
+    this.context.globalCompositeOperation = 'destination-out';
+    return true;
   };
 
   this.lineMode = function () {
     this.setRenderFunction('updateCanvasByLine');
+    this.context.globalCompositeOperation = 'source-over';
+    return true;
   };
 
   this.brushMode = function () {
