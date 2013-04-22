@@ -187,7 +187,9 @@ $.fn.nightlyPainter = function(opts) {
     if (dataURL)
     {
       this.saveRedoState();
+      var oldGlobalCompositeOperation = this.context.globalCompositeOperation;
       this.readDataURL(dataURL);
+      this.context.globalCompositeOperation = oldGlobalCompositeOperation;
     }
   };
 
@@ -196,7 +198,9 @@ $.fn.nightlyPainter = function(opts) {
     if (dataURL)
     {
       this.saveUndoState({callFromRedo: true});
+      var oldGlobalCompositeOperation = this.context.globalCompositeOperation;
       this.readDataURL(dataURL);
+      this.context.globalCompositeOperation = oldGlobalCompositeOperation;
     }
   };
 
@@ -206,6 +210,7 @@ $.fn.nightlyPainter = function(opts) {
       var imageObj = new Image();
       var self = this;
       imageObj.onload = function() {
+        self.context.globalCompositeOperation = 'source-over';
         self.context.clearRect(0, 0, self.width(), self.height());
         self.context.drawImage(this, 0, 0);
       };
