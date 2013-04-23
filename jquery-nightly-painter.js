@@ -267,7 +267,20 @@ $.fn.nightlyPainter = function(opts) {
       return true;
     }
     return false;
-  }
+  };
+
+  this.readFile = function(e) {
+    window.URL = window.URL || window.webkitURL;
+    var fileField = document.createElement("input");
+    var self = this;
+    fileField.type = "file";
+    fileField.onchange = function(e) {
+      var target = $(e.target);
+      var file = target.prop('files')[0];
+      self.readDataURL(window.URL.createObjectURL(file));
+    };
+    $(fileField).click();
+  };
 
   return this.init(opts);
 };

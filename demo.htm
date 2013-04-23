@@ -27,6 +27,7 @@
     <button id="pen">pen</button>
     <button id="brush">brush</button>
     #<input type="text" id="color" value="333333"/>
+    <button id="read_file">read file</button>
     <hr />
     <canvas id="painter"></canvas>
     <script type="text/javascript" charset="utf-8">
@@ -45,6 +46,7 @@
           $('#pen').click(function(e) { painter.lineMode(); })
           $('#brush').click(function(e) { painter.setBrushByURL('./brush-fuzzy-16.png'); })
           $('#color').change(function(e) { painter.setStrokeStyle('#' + $(e.target).val().replace(/^#/, '')); })
+          $('#read_file').click(function(e) { painter.readFile(); })
           $(window).resize(resizeToFit);
           resizeToFit();
       });
