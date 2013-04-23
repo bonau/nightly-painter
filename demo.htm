@@ -26,6 +26,7 @@
     <button id="eraser">eraser</button>
     <button id="pen">pen</button>
     <button id="brush">brush</button>
+    #<input type="text" id="color" value="333333"/>
     <hr />
     <canvas id="painter"></canvas>
     <script type="text/javascript" charset="utf-8">
@@ -43,6 +44,7 @@
           $('#eraser').click(function(e) { painter.eraserMode(); })
           $('#pen').click(function(e) { painter.lineMode(); })
           $('#brush').click(function(e) { painter.setBrushByURL('./brush-fuzzy-16.png'); })
+          $('#color').change(function(e) { painter.setStrokeStyle('#' + $(e.target).val().replace(/^#/, '')); })
           $(window).resize(resizeToFit);
           resizeToFit();
       });
