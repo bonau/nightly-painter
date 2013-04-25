@@ -103,6 +103,8 @@ $.fn.nightlyPainter = function(opts) {
 
       self.mouseMoveHandler = null;
       self.mouseUpHandler = null;
+
+      self.saveLastBackup();
     };
   };
 
@@ -165,6 +167,7 @@ $.fn.nightlyPainter = function(opts) {
   this.clear = function () {
     this.saveUndoState();
     this.context.clearRect( 0, 0, this.width(), this.height() );
+    this.saveLastBackup();
   };
 
   this.saveUndoState = function (opts) {
@@ -188,7 +191,7 @@ $.fn.nightlyPainter = function(opts) {
     {
       this.saveRedoState();
       var oldGlobalCompositeOperation = this.context.globalCompositeOperation;
-      this.readDataURL(dataURL);
+      this.readDataURL(dataURL, function(o) { o.saveLastBackup() });
       this.context.globalCompositeOperation = oldGlobalCompositeOperation;
     }
   };
@@ -199,12 +202,12 @@ $.fn.nightlyPainter = function(opts) {
     {
       this.saveUndoState({callFromRedo: true});
       var oldGlobalCompositeOperation = this.context.globalCompositeOperation;
-      this.readDataURL(dataURL);
+      this.readDataURL(dataURL, function(o) { o.saveLastBackup() });
       this.context.globalCompositeOperation = oldGlobalCompositeOperation;
     }
   };
 
-  this.readDataURL = function(dataURL) {
+  this.readDataURL = function(dataURL, callback) {
     if (dataURL)
     {
       var imageObj = new Image();
@@ -213,6 +216,7 @@ $.fn.nightlyPainter = function(opts) {
         self.context.globalCompositeOperation = 'source-over';
         self.context.clearRect(0, 0, self.width(), self.height());
         self.context.drawImage(this, 0, 0);
+        callback(self);
       };
       imageObj.src = dataURL;
     }
@@ -277,10 +281,26 @@ $.fn.nightlyPainter = function(opts) {
     fileField.onchange = function(e) {
       var target = $(e.target);
       var file = target.prop('files')[0];
-      self.readDataURL(window.URL.createObjectURL(file));
+      self.readDataURL(window.URL.createObjectURL(file), function(o) { o.saveLastBackup(); });
     };
     $(fileField).click();
   };
+
+  this.resizeCanvas = function (width, height, afterHandler, beforeHandler) {
+    if (beforeHandler) beforeHandler(this);
+    this.prop('width', width);
+    this.prop('height', height);
+    this.restoreLastBackup();
+    if (afterHandler) afterHandler(this);
+  }
+
+  this.saveLastBackup = function() {
+    this.lastBackup = this.toDataURL();
+  };
+
+  this.restoreLastBackup = function() {
+    if (this.lastBackup) this.readDataURL(this.lastBackup);
+  }
 
   return this.init(opts);
 };

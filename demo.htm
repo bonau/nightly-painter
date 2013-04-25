@@ -33,6 +33,13 @@
     <script type="text/javascript" charset="utf-8">
       $(document).ready( function() {
           var painter = $('#painter').nightlyPainter();
+          var resizeToFit = function () {
+            var bodyWidth = $(document.body).width();
+            var bodyHeight = $(document.body).height();
+            var painterX = $('#painter').position().left;
+            var painterY = $('#painter').position().top;
+            painter.resizeCanvas(bodyWidth - painterX, bodyHeight - painterY);
+          }
           // We can also set default options
           //var painter = $('#painter').nightlyPainter({ strokeStyle: "#369", lineWidth: 6 });
           $('#clear').click(function(e) { painter.clear(); })
@@ -50,14 +57,6 @@
           $(window).resize(resizeToFit);
           resizeToFit();
       });
-      function resizeToFit(){
-        var bodyWidth = $(document.body).width();
-        var bodyHeight = $(document.body).height();
-        var painterX = $('#painter').position().left;
-        var painterY = $('#painter').position().top;
-        $('#painter').prop('width', bodyWidth - painterX);
-        $('#painter').prop('height', bodyHeight - painterY);
-      }
     </script>
   </body>
 </html>
