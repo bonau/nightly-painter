@@ -281,6 +281,7 @@ $.fn.nightlyPainter = function(opts) {
     fileField.onchange = function(e) {
       var target = $(e.target);
       var file = target.prop('files')[0];
+      self.saveUndoState();
       self.readDataURL(window.URL.createObjectURL(file), function(o) { o.saveLastBackup(); });
     };
     $(fileField).click();
