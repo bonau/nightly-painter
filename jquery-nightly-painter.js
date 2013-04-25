@@ -216,7 +216,7 @@ $.fn.nightlyPainter = function(opts) {
         self.context.globalCompositeOperation = 'source-over';
         self.context.clearRect(0, 0, self.width(), self.height());
         self.context.drawImage(this, 0, 0);
-        callback(self);
+        if (callback && callback.call) callback(self);
       };
       imageObj.src = dataURL;
     }
